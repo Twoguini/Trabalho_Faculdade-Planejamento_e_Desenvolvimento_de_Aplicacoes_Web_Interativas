@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ordenando</title>
+  <script src="./ordenando.js"></script>
+</head>
+<body>
+  <form onsubmit="event.preventDefault(); add()">
+    <input type="number" name="Number" id="valor">
+    <input type="submit" value="Adicionar">
+  </form>
+
+  <select name="SortType" id="SortTypeSelection">
+    <option value="0" selected>Bubble Sort</option>
+    <option value="1">Selection Sort</option>
+    <option value="2">Quick Sort</option>
+  </select>
+  <button type="button" onclick="order()">Ordenar</button>
+
+  <button type="button" onclick="mix()">Misturar</button>
+
+  <ul id="valores"></ul>
+
+</body>
+</html>
