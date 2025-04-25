@@ -1,3 +1,9 @@
+/*window.addEventListener("load", (Event) => {
+  let testingArray = [5, 8, 3, 4, 2, 1, 7, 6];
+
+  for(let i = 0; i < testingArray.length; i++) add(testingArray[i]);
+});*/
+
 // Trocar valores de 2 posições em um vetor
 const swap = (array, firstPosition, secondPosition) => {
   [array[firstPosition], array[secondPosition]] = [array[secondPosition], array[firstPosition]];
@@ -5,7 +11,12 @@ const swap = (array, firstPosition, secondPosition) => {
 
 // embaralhar os elementos de um vetor
 const shuffle = (array, numOfChanges) => {
+  if(numOfChanges > array.length) return;
 
+  for(let i = array.length-1; i > 0; i--) {
+    let randomIndex = Math.floor(Math.random() * (i+1));
+    swap(array, randomIndex, i);
+  }
 }
 
 // ordenar um vetor de inteiros com o algoritmo Bubble Sort
@@ -20,17 +31,44 @@ const bubble_sort = (iArray) => {
 
 // ordenar um vetor de inteiros utilizando o algoritmo Selection Sort
 const selection_sort = (iArray) => {
-  
+  let smallestIntIndex;
+
+  for(let i = 0; i < iArray.length; i++) {
+    smallestIntIndex = i
+    for(let j = i+1; j < iArray.length; j++) {
+      if(iArray[j] < iArray[smallestIntIndex]) {
+        smallestIntIndex = j;
+      }
+    }
+    swap(iArray, i, smallestIntIndex);
+  }
 }
 
 // ordenar um vetor de inteiros com o algoritmo Quick Sort
 const quick_sort = (iArray, initPosition, finalPosition) => {
-  
+  if(initPosition >= finalPosition) return;
+
+  let pivotValue = iArray[finalPosition];
+  let newPivotPosition = particionamento(iArray, initPosition, finalPosition, pivotValue);
+
+  quick_sort(iArray, initPosition, newPivotPosition - 1);
+  quick_sort(iArray, newPivotPosition + 1, finalPosition);
 }
 
 //  apoio a quick_sort()
-const particionamento = (iArray, initPosition, finalPosition, pivot) => {
-  
+const particionamento = (iArray, initPosition, finalPosition, pivotValue) => {
+  let leftCase = initPosition;
+
+  for(let i = initPosition; i < finalPosition; i++) {
+    if(iArray[i] < pivotValue) {
+      swap(iArray, leftCase, i);
+      leftCase++;
+    }
+  }
+
+  swap(iArray, leftCase, finalPosition);
+
+  return leftCase;
 }
 
 function add() {
@@ -47,6 +85,16 @@ function add() {
   nodeList.appendChild(text);
   list.appendChild(nodeList);
 }
+
+/*// Testing add
+function add(int) {
+  const list = document.getElementById('valores');
+  const nodeList = document.createElement('li');
+  const text = document.createTextNode(int);
+  
+  nodeList.appendChild(text);
+  list.appendChild(nodeList);
+}*/
 
 function order() {
   const list = document.getElementById('valores');
@@ -74,7 +122,7 @@ function mix() {
   const list = document.getElementById('valores');
   const numbers = Array.from(list.children).map((li) => eval(li.innerHTML));
 
-  shuffle(numbers);
+  shuffle(numbers, 5);
 
   list.innerHTML = numbers
     .map((num) => `<li>${num}</li>`)
